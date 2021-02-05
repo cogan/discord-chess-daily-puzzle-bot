@@ -27,7 +27,7 @@ async def post_daily_puzzle(channel):
         title = json['title']
         img_url = json['image'] + "&coordinates=true"
         fen = json['fen']
-        if (fen.split(' ')[1]) is 'b':
+        if (fen.split(' ')[1]) == 'b':
             img_url += '&flip=true'
         await channel.send(f'Daily Puzzle: {date} - {title}')
         await channel.send(img_url)
