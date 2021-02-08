@@ -25,21 +25,14 @@ async def post_daily_puzzle(channel):
         json = await get_daily_puzzle()
         date = datetime.utcfromtimestamp(json['publish_time']).strftime('%A %Y.%m.%d')
         title = json['title']
+        link = json['url']
         img_url = json['image'] + "&coordinates=true"
         fen = json['fen']
         if (fen.split(' ')[1]) == 'b':
             img_url += '&flip=true'
         await channel.send(f'Daily Puzzle: {date} - {title}')
-        await channel.send(img_url)
-    except Exception as e:
-        logging.exception(e)
-        await channel.send(TECH_DIFFICULTIES_MSG)
-
-async def post_daily_puzzle_link(channel):
-    try:
-        json = await get_daily_puzzle()
-        link = json['url']
         await channel.send(f'<{link}>')
+        await channel.send(img_url)
     except Exception as e:
         logging.exception(e)
         await channel.send(TECH_DIFFICULTIES_MSG)
@@ -49,7 +42,7 @@ async def post_daily_puzzle_solution(channel):
         json = await get_daily_puzzle()
         pgn = json['pgn']
         solution = pgn.split('\r\n\r\n')[1]
-        await channel.send(solution)
+        await channel.send(f'||{solution}||')
     except Exception as e:
         logging.exception(e)
         await channel.send(TECH_DIFFICULTIES_MSG)
@@ -67,13 +60,10 @@ async def on_message(message):
         await message.channel.send(
 """I'll post the daily puzzle from chess.com every day at 9am.
 
-commands: !puzzle, !link, !solution""")
+commands: !puzzle, !solution""")
 
     if message.content.startswith('!puzzle'):
         await post_daily_puzzle(message.channel)
-
-    if message.content.startswith('!link'):
-        await post_daily_puzzle_link(message.channel)
 
     if message.content.startswith('!solution'):
         await post_daily_puzzle_solution(message.channel)
