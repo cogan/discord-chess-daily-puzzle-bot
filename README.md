@@ -10,8 +10,6 @@ interact with the bot via some simple commands:
 
 **!puzzle** - shows the daily puzzle
 
-**!link** - gives a link to the puzzle on chess.com (which includes an interactive solving mode)
-
 **!solution** - gives the solution to the puzzle
 
 ## Running the bot
